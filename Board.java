@@ -73,7 +73,10 @@ public class Board
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
 
-        setXBoard(x,y);
+        if (desk[y-1][x-1]!=' '){
+            System.out.println("Ячейка занята. Введите новые координаты");
+            humanTurn();
+        }else setXBoard(x,y);
 
     }
 
