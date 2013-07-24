@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 public class Board
 {
     boolean firstRun = true;
+    char humanRace = 0;
     static char X = 'X';
     static char O = 'O';
     static char EMPTY_CELL = ' ';
@@ -61,7 +62,7 @@ public class Board
     }
 
 
-    public void humanTurn()
+    public void humanTurn(char value)
     {
         System.out.println("Ваш ход:");
         x = humanInput("по горизонтали[1,2,3]:");
@@ -70,19 +71,19 @@ public class Board
         if (getCurrentCell() != EMPTY_CELL)
         {
             System.out.println("Ячейка занята. Введите новые координаты");
-            humanTurn();
-        } else setCurrentCell(X);
+            humanTurn(value);
+        } else setCurrentCell(value);
 
     }
 
-    public void computerTurn()
+    public void computerTurn(char value)
     {
         System.out.println("Компьютер ходит:");
         while (true){
             x = (int) (Math.random() * 3 + 1);
             y = (int) (Math.random() * 3 + 1);
             if (getCurrentCell() == EMPTY_CELL){
-                setCurrentCell(O);
+                setCurrentCell(value);
                 break;
             }
         }
@@ -117,30 +118,83 @@ public class Board
     {
         while (playover)
         {
-            humanTurn();
-            gameOver();
-            if (playover == false)
-            {
-                System.out.println("ВЫ ПОБЕДИЛИ!");
-                break;
+            if (humanRace == 0){
+                System.out.println("Чем играете? Крестик или нолик? Введите X или O:");
+                BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            String input;
+
+            while (true){
+                try
+                {
+                    input = reader.readLine().toUpperCase();
+                    if (input.equals("")) System.out.println("Введите X или O:");
+                    if (input.charAt(0) == X || input.charAt(0)==O){
+                        humanRace = input.charAt(0);
+                        break;
+                    }
+                    if (input.charAt(0) == '0'){
+                        humanRace = O;
+                        break;
+                    }
+                    else System.out.println("Введите X или O:");
+                }
+                catch (IOException e){ }
             }
-            if (draw)
-            {
-                System.out.println("НИЧЬЯ!");
-                break;
             }
-            computerTurn();
-            gameOver();
-            if (playover == false)
-            {
-                System.out.println("ВЫ ПРОИГРАЛИ!");
-                break;
+
+            if (humanRace == X){
+                humanTurn(X);
+                gameOver();
+                if (playover == false)
+                {
+                    System.out.println("ВЫ ПОБЕДИЛИ!");
+                    break;
+                }
+                if (draw)
+                {
+                    System.out.println("НИЧЬЯ!");
+                    break;
+                }
+                computerTurn(O);
+                gameOver();
+                if (playover == false)
+                {
+                    System.out.println("ВЫ ПРОИГРАЛИ!");
+                    break;
+                }
+                if (draw)
+                {
+                    System.out.println("НИЧЬЯ!");
+                    break;
+                }
             }
-            if (draw)
-            {
-                System.out.println("НИЧЬЯ!");
-                break;
+            else{
+                computerTurn(X);
+                gameOver();
+                if (playover == false)
+                {
+                    System.out.println("ВЫ ПРОИГРАЛИ!");
+                    break;
+                }
+                if (draw)
+                {
+                    System.out.println("НИЧЬЯ!");
+                    break;
+                }
+                humanTurn(O);
+                gameOver();
+                if (playover == false)
+                {
+                    System.out.println("ВЫ ПОБЕДИЛИ!");
+                    break;
+                }
+                if (draw)
+                {
+                    System.out.println("НИЧЬЯ!");
+                    break;
+                }
             }
+
         }
         System.out.println("Конец игры");
     }
