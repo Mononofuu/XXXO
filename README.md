@@ -1,4 +1,4 @@
 XXXO
 ====
 
-1st simple XO game on Java
+my 1st simple TicTacToe game on Java
