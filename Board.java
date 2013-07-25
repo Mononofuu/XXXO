@@ -6,22 +6,21 @@ import java.io.InputStreamReader;
 
 public class Board
 {
+    static State[][] desk = new State[3][3];
     boolean firstRun = true;
-    char humanRace = 0;
-    static char X = 'X';
-    static char O = 'O';
-    static char EMPTY_CELL = ' ';
-    static char[][] desk = new char[3][3];
+    boolean humanPlaysX;
     int x;
     int y;
     boolean playover = true;
     boolean draw = false;
 
-    char getCurrentCell(){
+    State getCurrentCell()
+    {
         return this.desk[y - 1][x - 1];
     }
 
-    void setCurrentCell(char value){
+    void setCurrentCell(State value)
+    {
         this.desk[y - 1][x - 1] = value;
         printBoard();
     }
@@ -32,43 +31,46 @@ public class Board
         {
             for (int x = 0; x < this.desk[y].length; x++)
             {
-                if (firstRun){
-                    this.desk[y][x] = EMPTY_CELL;
-                    System.out.print(String.format("[%c]", this.desk[y][x]));
-                }
-                else System.out.print(String.format("[%c]", this.desk[y][x]));
+                if (firstRun)
+                {
+                    this.desk[y][x] = State.EMPTY_CELL;
+                    System.out.print(String.format("[%s]", this.desk[y][x].displayName()));
+                } else System.out.print(String.format("[%s]", this.desk[y][x].displayName()));
             }
             System.out.println();
         }
-        firstRun = false;
     }
 
-    private int humanInput(String message){
+    private int humanInput(String message)
+    {
         int humanInputValue;
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        while (true){
+        while (true)
+        {
             try
             {
                 System.out.println(message);
                 String stringInput = reader.readLine();
-                if (stringInput.equals("1") || stringInput.equals("2") || stringInput.equals("3")){
+                if (stringInput.equals("1") || stringInput.equals("2") || stringInput.equals("3"))
+                {
                     humanInputValue = Integer.parseInt(stringInput);
                     break;
-                }
-                else System.out.println("Неверный ввод. Введите цифру 1 или 2 или 3");
-            } catch (IOException e){ }
+                } else System.out.println("Неверный ввод. Введите цифру 1 или 2 или 3");
+            }
+            catch (IOException e)
+            {
+            }
         }
         return humanInputValue;
     }
 
-
-    public void humanTurn(char value)
+    public void humanTurn(State value)
     {
         System.out.println("Ваш ход:");
         x = humanInput("по горизонтали[1,2,3]:");
         y = humanInput("по вертикали[1,2,3]:");
 
-        if (getCurrentCell() != EMPTY_CELL)
+        if (getCurrentCell() != State.EMPTY_CELL)
         {
             System.out.println("Ячейка занята. Введите новые координаты");
             humanTurn(value);
@@ -76,13 +78,15 @@ public class Board
 
     }
 
-    public void computerTurn(char value)
+    public void computerTurn(State value)
     {
         System.out.println("Компьютер ходит:");
-        while (true){
+        while (true)
+        {
             x = (int) (Math.random() * 3 + 1);
             y = (int) (Math.random() * 3 + 1);
-            if (getCurrentCell() == EMPTY_CELL){
+            if (getCurrentCell() == State.EMPTY_CELL)
+            {
                 setCurrentCell(value);
                 break;
             }
@@ -92,21 +96,27 @@ public class Board
     public void gameOver()
     {
         int count = 0;
+        int countDiag1 = 0;
+        int countDiag2 = 0;
         for (int i = 0; i < 3; i++)
         {
             for (int j = 0; j < 3; j++)
             {
-                if (desk[i][j] == EMPTY_CELL) count++;
+                if (desk[i][j] == State.EMPTY_CELL) count++;
             }
-            if ((desk[i][0] == X && desk[i][1] == X && desk[i][2] == X) || (desk[i][0] == O && desk[i][1] == O && desk[i][2] == O))
+            if ((desk[i][0] == desk[i][1]) && (desk[i][1] == desk[i][2]) && (desk[i][2] != State.EMPTY_CELL))
                 playover = false;
-            if ((desk[0][i] == X && desk[1][i] == X && desk[2][i] == X) || (desk[0][i] == O && desk[1][i] == O && desk[2][i] == O))
+            if ((desk[0][i] == desk[1][i]) && (desk[1][i] == desk[2][i]) && (desk[2][i] != State.EMPTY_CELL))
                 playover = false;
+            if (desk[i][i].equals(State.X)) countDiag1++;
+            else if (desk[i][i].equals(State.O)) countDiag1--;
+            if (Math.abs(countDiag1) == 3) playover = false;
+
+            if (desk[i][2 - i].equals(State.X)) countDiag2++;
+            else if (desk[i][i].equals(State.O)) countDiag2--;
+            if (Math.abs(countDiag2) == 3) playover = false;
+
         }
-        if ((desk[0][0] == X && desk[1][1] == X && desk[2][2] == X) || (desk[0][2] == X && desk[1][1] == X && desk[2][0] == X))
-            playover = false;
-        if ((desk[0][0] == O && desk[1][1] == O && desk[2][2] == O) || (desk[0][2] == O && desk[1][1] == O && desk[2][0] == O))
-            playover = false;
 
         if (count < 1)
         {
@@ -118,32 +128,40 @@ public class Board
     {
         while (playover)
         {
-            if (humanRace == 0){
+            if (firstRun)
+            {
                 System.out.println("Чем играете? Крестик или нолик? Введите X или O:");
                 BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-            String input;
+                String input;
 
-            while (true){
-                try
+                while (true)
                 {
-                    input = reader.readLine().toUpperCase();
-                    if (input.equals("")) System.out.println("Введите X или O:");
-                    if (input.charAt(0) == X || input.charAt(0)==O){
-                        humanRace = input.charAt(0);
-                        break;
+                    try
+                    {
+                        input = reader.readLine().toUpperCase();
+                        if (input.equals("")) System.out.println("Введите X или O:");
+                        if (input.equals("X") || input.equals("O"))
+                        {
+                            humanPlaysX = (input.equals("X") ? true : false);
+                            break;
+                        }
+
+                        if (input.charAt(0) == '0')
+                        {
+                            humanPlaysX = false;
+                            break;
+                        } else System.out.println("Введите X или O:");
                     }
-                    if (input.charAt(0) == '0'){
-                        humanRace = O;
-                        break;
+                    catch (IOException e)
+                    {
                     }
-                    else System.out.println("Введите X или O:");
                 }
-                catch (IOException e){ }
-            }
+                firstRun = false;
             }
 
-            if (humanRace == X){
-                humanTurn(X);
+            if (humanPlaysX)
+            {
+                humanTurn(State.X);
                 gameOver();
                 if (playover == false)
                 {
@@ -155,7 +173,7 @@ public class Board
                     System.out.println("НИЧЬЯ!");
                     break;
                 }
-                computerTurn(O);
+                computerTurn(State.O);
                 gameOver();
                 if (playover == false)
                 {
@@ -167,9 +185,9 @@ public class Board
                     System.out.println("НИЧЬЯ!");
                     break;
                 }
-            }
-            else{
-                computerTurn(X);
+            } else
+            {
+                computerTurn(State.X);
                 gameOver();
                 if (playover == false)
                 {
@@ -181,7 +199,7 @@ public class Board
                     System.out.println("НИЧЬЯ!");
                     break;
                 }
-                humanTurn(O);
+                humanTurn(State.O);
                 gameOver();
                 if (playover == false)
                 {
@@ -197,5 +215,23 @@ public class Board
 
         }
         System.out.println("Конец игры");
+    }
+
+    enum State
+    {
+        X("X"),
+        O("O"),
+        EMPTY_CELL(" ");
+        private String displayName;
+
+        State(String displayName)
+        {
+            this.displayName = displayName;
+        }
+
+        public String displayName()
+        {
+            return displayName;
+        }
     }
 }
