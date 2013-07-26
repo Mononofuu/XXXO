@@ -8,6 +8,7 @@ public abstract class Player
     State mark;
 
     abstract void makeTurn(Field field);
+    public abstract String toString();
 
     public void setMark(State mark)
     {
@@ -19,5 +20,12 @@ public abstract class Player
         return mark;
     }
 
+    protected Player(State state)
+    {
+        this.mark = state;
+    }
 
+    protected Player()
+    {
+    }
 }

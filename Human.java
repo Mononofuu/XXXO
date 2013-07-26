@@ -10,14 +10,7 @@ import java.io.InputStreamReader;
 public class Human extends Player
 {
 
-    public Human(State mark)
-    {
-        super();
-        this.mark = mark;
-    }
-
-
-    @Override
+   @Override
     void makeTurn(Field field)
     {
         System.out.println("Ваш ход:");
@@ -29,6 +22,13 @@ public class Human extends Player
             System.out.println("Ячейка занята. Введите новые координаты");
             makeTurn(field);
         } else field.setCellState(mark);
+    }
+
+    @Override
+    public String toString()
+    {
+        System.out.println("Победил человек!");
+        return null;
     }
 
     private int humanInput(String message)
@@ -54,5 +54,12 @@ public class Human extends Player
         return humanInputValue;
     }
 
+    public Human(State state)
+    {
+        super(state);
+    }
 
+    public Human()
+    {
+    }
 }

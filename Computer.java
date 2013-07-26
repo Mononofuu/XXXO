@@ -21,10 +21,19 @@ public class Computer extends Player
         }
     }
 
-    public Computer(State mark)
+    @Override
+    public String toString()
     {
-        super();
-        this.mark = mark;
+        System.out.println("Вы проиграли. Победил компьютер!");
+        return null;
     }
 
+    public Computer(State state)
+    {
+        super(state);
+    }
+
+    public Computer()
+    {
+    }
 }
