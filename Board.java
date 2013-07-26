@@ -14,32 +14,7 @@ public class Board
     boolean playover = true;
     boolean draw = false;
 
-    State getCurrentCell()
-    {
-        return this.desk[y - 1][x - 1];
-    }
 
-    void setCurrentCell(State value)
-    {
-        this.desk[y - 1][x - 1] = value;
-        printBoard();
-    }
-
-    public void printBoard()
-    {
-        for (int y = 0; y < this.desk.length; y++)
-        {
-            for (int x = 0; x < this.desk[y].length; x++)
-            {
-                if (firstRun)
-                {
-                    this.desk[y][x] = State.EMPTY_CELL;
-                    System.out.print(String.format("[%s]", this.desk[y][x].displayName()));
-                } else System.out.print(String.format("[%s]", this.desk[y][x].displayName()));
-            }
-            System.out.println();
-        }
-    }
 
     private int humanInput(String message)
     {
@@ -217,21 +192,5 @@ public class Board
         System.out.println("Конец игры");
     }
 
-    enum State
-    {
-        X("X"),
-        O("O"),
-        EMPTY_CELL(" ");
-        private String displayName;
 
-        State(String displayName)
-        {
-            this.displayName = displayName;
-        }
-
-        public String displayName()
-        {
-            return displayName;
-        }
-    }
 }

@@ -5,9 +5,9 @@ public class Main
 {
     public static void main(String[] args)
     {
-        Board start = new Board();
-        start.printBoard();
-        start.startGame();
+        Game game = new Game();
+        game.startGame();
+
 
     }
 
