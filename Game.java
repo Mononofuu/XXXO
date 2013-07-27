@@ -43,8 +43,6 @@ public class Game
     }
     }
 
-
-
     void selectMark(){
         System.out.println("Чем играете? Крестик или нолик? Введите X или O:");
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -54,7 +52,6 @@ public class Game
             try
             {
                 input = reader.readLine().toUpperCase();
-                if (input.equals("")) System.out.println("Введите X или O:");
                 if (input.equals("X") || input.equals("O"))
                 {
                     human.setMark(input.equals("X") ? Field.State.X : Field.State.O);
@@ -69,13 +66,12 @@ public class Game
                     break;
                 } else System.out.println("Введите X или O:");
             }
+            catch (StringIndexOutOfBoundsException se){System.out.println("Введите X или O:");}
             catch (IOException e)
             {
             }
         }
     }
-
-
 
     public void startHumanVsComputerGame()
     {
@@ -189,23 +185,23 @@ public class Game
 
     public static void main(String[] args)
     {
-        while (true){
+        boolean again = true;
+        while (again){
+            again = false;
             Game game = new Game();
             selectGameType(game);
             if (game.getMode()==1)game.startHumanVsComputerGame();
             else game.startHumanVsHumanGame();
-//            System.out.println("Еще сыграем? [Д/Н]");
-//            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-//            String input;
-//            while (true){
-//                try {
-//                    input = reader.readLine();
-//                    if (input.equals("Д") || input.equals("Н")){
-//                        if (input.equals("Н")) break;
-//                    }
-//                    else System.out.println("Еще сыграем? [Д/Н]");
-//                }catch (IOException e){}
-//            }
+            System.out.println("Еще сыграем? [Y/N]");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            String input;
+                try {
+                    input = reader.readLine().toUpperCase();
+                    if (input.equals("Y") || input.equals("N")){
+                        again = input.equals("Y");
+                    }
+                    else System.out.println("THE END");
+                }catch (IOException e){}
         }
     }
 }
