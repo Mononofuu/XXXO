@@ -1,7 +1,7 @@
-package XXXO;
+package xxxo;
 
 
-import XXXO.Field.*;
+import xxxo.Field.*;
 
 public class Computer extends Player
 {

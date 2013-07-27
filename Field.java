@@ -1,4 +1,4 @@
-package XXXO;
+package xxxo;
 
 
 public class Field

@@ -1,4 +1,4 @@
-package XXXO;
+package xxxo;
 
 
 import java.io.BufferedReader;
@@ -16,9 +16,54 @@ public class Game
     Player human2;
     int mode;
 
-    public void setMode(int mode)
+    static void selectGameType(Game game)
     {
-        this.mode = mode;
+        System.out.println("TIC TAC TOE\n Выберите режим игры:\n 1.Человек против компьютера\n 2.Человек против человека");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        String input;
+        while (true)
+        {
+            try
+            {
+                input = reader.readLine();
+                if (input.equals("1") || input.equals("2"))
+                {
+                    game.setMode(Integer.parseInt(input));
+                    break;
+                } else System.out.println("Введите 1 или 2:");
+
+            }
+            catch (IOException e)
+            {
+            }
+        }
+    }
+
+    public static void main(String[] args)
+    {
+        boolean again = true;
+        while (again)
+        {
+            again = false;
+            Game game = new Game();
+            selectGameType(game);
+            if (game.getMode() == 1) game.startHumanVsComputerGame();
+            else game.startHumanVsHumanGame();
+            System.out.println("Еще сыграем? [Y/N]");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            String input;
+            try
+            {
+                input = reader.readLine().toUpperCase();
+                if (input.equals("Y") || input.equals("N"))
+                {
+                    again = input.equals("Y");
+                } else System.out.println("THE END");
+            }
+            catch (IOException e)
+            {
+            }
+        }
     }
 
     public int getMode()
@@ -26,24 +71,13 @@ public class Game
         return mode;
     }
 
-    static void selectGameType(Game game){
-    System.out.println("TIC TAC TOE\n Выберите режим игры:\n 1.Человек против компьютера\n 2.Человек против человека");
-    BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-    String input;
-    while (true){
-        try {
-            input = reader.readLine();
-            if (input.equals("1") || input.equals("2")){
-                game.setMode(Integer.parseInt(input));
-                break;
-            }
-            else System.out.println("Введите 1 или 2:");
-
-        }catch (IOException e){}
-    }
+    public void setMode(int mode)
+    {
+        this.mode = mode;
     }
 
-    void selectMark(){
+    void selectMark()
+    {
         System.out.println("Чем играете? Крестик или нолик? Введите X или O:");
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String input;
@@ -66,7 +100,10 @@ public class Game
                     break;
                 } else System.out.println("Введите X или O:");
             }
-            catch (StringIndexOutOfBoundsException se){System.out.println("Введите X или O:");}
+            catch (StringIndexOutOfBoundsException se)
+            {
+                System.out.println("Введите X или O:");
+            }
             catch (IOException e)
             {
             }
@@ -80,23 +117,23 @@ public class Game
         selectMark();
         Player player1;
         Player player2;
-        player1 = (human.getMark().equals(Field.State.X))?human:computer;
-        player2 = (human.getMark().equals(Field.State.O))?human:computer;
+        player1 = (human.getMark().equals(Field.State.X)) ? human : computer;
+        player2 = (human.getMark().equals(Field.State.O)) ? human : computer;
 
         while (playover)
         {
             player1.makeTurn(field);
             gameOverCheck();
             if (playover == false)
-                {
-                    player1.toString();
-                    break;
-                }
-                if (draw)
-                {
-                    System.out.println("НИЧЬЯ!");
-                    break;
-                }
+            {
+                player1.toString();
+                break;
+            }
+            if (draw)
+            {
+                System.out.println("НИЧЬЯ!");
+                break;
+            }
             player2.makeTurn(field);
             gameOverCheck();
             if (playover == false)
@@ -113,7 +150,8 @@ public class Game
         System.out.println("Конец игры");
     }
 
-    public void startHumanVsHumanGame(){
+    public void startHumanVsHumanGame()
+    {
         human = new Human(Field.State.X);
         human2 = new Human(Field.State.O);
 
@@ -178,30 +216,6 @@ public class Game
         if (count < 1)
         {
             draw = true;
-        }
-    }
-
-
-
-    public static void main(String[] args)
-    {
-        boolean again = true;
-        while (again){
-            again = false;
-            Game game = new Game();
-            selectGameType(game);
-            if (game.getMode()==1)game.startHumanVsComputerGame();
-            else game.startHumanVsHumanGame();
-            System.out.println("Еще сыграем? [Y/N]");
-            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-            String input;
-                try {
-                    input = reader.readLine().toUpperCase();
-                    if (input.equals("Y") || input.equals("N")){
-                        again = input.equals("Y");
-                    }
-                    else System.out.println("THE END");
-                }catch (IOException e){}
         }
     }
 }

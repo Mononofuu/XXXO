@@ -1,11 +1,11 @@
-package XXXO;
+package xxxo;
 
 
-import XXXO.Field.State;
+import xxxo.Field.State;
 
 public abstract class Player
 {
-    State mark;
+    protected State mark;
 
     abstract void makeTurn(Field field);
     public abstract String toString();

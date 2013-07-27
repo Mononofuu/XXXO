@@ -1,7 +1,7 @@
-package XXXO;
+package xxxo;
 
 
-import XXXO.Field.State;
+import xxxo.Field.State;
 
 import java.io.BufferedReader;
 import java.io.IOException;
