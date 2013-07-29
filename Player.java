@@ -1,7 +1,7 @@
-package xxxo;
+package com.mono.tictactoegame;
 
+import com.mono.tictactoegame.Field.*;
 
-import xxxo.Field.State;
 
 public abstract class Player
 {

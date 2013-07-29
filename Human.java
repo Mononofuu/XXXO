@@ -1,7 +1,7 @@
-package xxxo;
+package com.mono.tictactoegame;
 
 
-import xxxo.Field.State;
+import com.mono.tictactoegame.Field.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -1,7 +1,6 @@
-package xxxo;
+package com.mono.tictactoegame;
 
-
-import xxxo.Field.*;
+import com.mono.tictactoegame.Field.*;
 
 public class Computer extends Player
 {
