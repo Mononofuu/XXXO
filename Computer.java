@@ -1,19 +1,17 @@
 package com.mono.tictactoegame;
 
-import com.mono.tictactoegame.Field.*;
 
-public class Computer extends Player
-{
+import com.mono.tictactoegame.Field.State;
+
+
+public class Computer extends Player {
     @Override
-    void makeTurn(Field field)
-    {
+    void makeTurn(Field field) {
         System.out.println("Компьютер ходит:");
-        while (true)
-        {
+        while (true) {
             field.x = (int) (Math.random() * 3 + 1);
             field.y = (int) (Math.random() * 3 + 1);
-            if (field.getCellState() == State.EMPTY_CELL)
-            {
+            if (field.getCellState() == State.EMPTY_CELL) {
                 field.setCellState(mark);
                 break;
             }
@@ -21,18 +19,15 @@ public class Computer extends Player
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         System.out.println("Вы проиграли. Победил компьютер!");
         return null;
     }
 
-    public Computer(State state)
-    {
+    public Computer(State state) {
         super(state);
     }
 
-    public Computer()
-    {
+    public Computer() {
     }
 }
