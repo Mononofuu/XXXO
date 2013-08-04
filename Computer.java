@@ -3,11 +3,13 @@ package com.mono.tictactoegame;
 
 import com.mono.tictactoegame.Field.State;
 
+import java.util.ArrayList;
+
 
 public class Computer extends Player {
     @Override
     void makeTurn(Field field) {
-        System.out.println("Компьютер ходит:");
+        System.out.println("\nКомпьютер ходит:");
         while (true) {
             field.x = (int) (Math.random() * 3 + 1);
             field.y = (int) (Math.random() * 3 + 1);
@@ -16,6 +18,10 @@ public class Computer extends Player {
                 break;
             }
         }
+
+        field.history.add(new ArrayList<Integer>());
+        field.history.get(field.history.size()-1).add(field.x);
+        field.history.get(field.history.size()-1).add(field.y);
     }
 
     @Override

@@ -4,6 +4,7 @@ package com.mono.tictactoegame;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 
 public class Game
@@ -42,6 +43,16 @@ public class Game
             selectGameType(game);
             if (game.getMode() == 1) game.startHumanVsComputerGame();
             else game.startHumanVsHumanGame();
+//            for (int i = 0; i<game.field.history.size(); i++){
+//                System.out.println("HUMAN");
+//                System.out.println("X=" + game.field.history.get(i).get(0));
+//                System.out.println("Y=" + game.field.history.get(i).get(1));
+//                i++;
+//                System.out.println("CPU");
+//                System.out.println("X=" + game.field.history.get(i).get(0));
+//                System.out.println("Y=" + game.field.history.get(i).get(1));
+//                System.out.println();
+//            }
             System.out.println("Еще сыграем? [Y/N]");
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
             String input;
@@ -98,6 +109,7 @@ public class Game
         player2 = (human.getMark().equals(Field.State.O)) ? human : computer;
 
         while (playover) {
+            System.out.println("\n######################");
             player1.makeTurn(field);
             gameOverCheck();
             if (playover == false) {
